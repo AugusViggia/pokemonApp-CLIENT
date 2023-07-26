@@ -4,7 +4,11 @@ import axios from "axios";
 export const searchName = (name) => {
     return async (dispatch) => {
         try {
-            const response = (await axios(`/pokemon/?name=${name}`)).data;
+            const response = (
+                await axios(
+                    `https://pokemonapp-api-production.up.railway.app/pokemon/?name=${name}`
+                )
+            ).data;
 
             dispatch({
                 type: SEARCH_NAME,
