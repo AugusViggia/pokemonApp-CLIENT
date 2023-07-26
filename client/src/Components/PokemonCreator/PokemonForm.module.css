@@ -1,0 +1,150 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #EA2027;;
+}
+
+.buttonDiv{
+    margin-bottom: 15px;
+    width: 50px;
+    text-align: center;
+    margin-top: 20px;
+    background-color: #1B9CFC;
+    box-shadow: 2px 2px 2px 2px #57606f;
+    border-radius: 5px;
+}
+
+.buttonBack{
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.buttonDiv:hover{
+    background-color: green;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+}
+
+input[type="checkbox"] {
+    margin-left: 10px;
+}
+
+.invalidFeedback {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.checkBoxTitle{
+    margin-top: 25px;
+    font-size: 20px;
+}
+
+.checkBoxDiv{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 40px;
+    margin-top: 15px;
+    justify-content: center;
+    align-items: center;
+    text-align: right;
+    font-size: 18px;
+}
+
+button[type="submit"] {
+    background-color: #1B9CFC;
+    color: #fff;
+    border: none;
+    margin-top: 30px;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+@media only screen and (max-width: 600px) {
+    .form {
+        padding: 5px;
+        width: 365px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+
+    .formGroup {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-size: 15px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+        font-size: 12px;
+        padding: 5px;
+        margin-left: 0;
+        width: 340px;
+    }
+
+    .checkBoxTitle {
+        font-size: 16px;
+        margin-top: 20px;
+    }
+
+    .checkBoxDiv {
+        font-size: 14px;
+        margin-top: 10px;
+    }
+}

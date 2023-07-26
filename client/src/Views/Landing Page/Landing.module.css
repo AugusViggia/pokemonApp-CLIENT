@@ -1,0 +1,75 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url('pokemon.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.title {
+    margin-bottom: 2rem;
+    text-align: center;
+    color: #f9ca24;
+    text-shadow: 5px 5px #000;
+    font-size: 100px;
+    text-decoration: solid;
+    font-weight: bold;
+}
+
+.title h1 {
+    font-size: 5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.linkList {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button {
+    display: inline-block;
+    margin: 0.5rem;
+    padding: 1.5rem 3rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #00a8ff;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.button:hover {
+    transform: scale(1.1);
+    background-color: #4cd137;
+}
+
+@media (max-width: 768px) {
+    .title h1 {
+        font-size: 3rem;
+    }
+
+    .button {
+        font-size: 1rem;
+        padding: 1rem 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .title h1 {
+        font-size: 2.5rem;
+    }
+
+    .button {
+        font-size: 0.8rem;
+        padding: 0.8rem 1.5rem;
+    }
+}

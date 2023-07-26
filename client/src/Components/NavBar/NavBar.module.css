@@ -1,0 +1,33 @@
+.navBarContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3vh;
+    min-width: 50vw;
+}
+
+.formLinkDiv{
+    display: flex;
+    flex-direction: row;
+    min-width: 50vw;
+    justify-content: space-between;
+}
+
+.buttonForm {
+    display: flex;
+    margin-right: 15px;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 3px;
+    background-color: #1B9CFC;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    height: 10px;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 2px 2px 2px 2px #57606f;
+}

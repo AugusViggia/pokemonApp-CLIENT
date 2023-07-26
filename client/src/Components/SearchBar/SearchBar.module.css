@@ -1,0 +1,55 @@
+.searchForm {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-left: 15px;
+}
+
+.input {
+    border: none;
+    border-radius: 2px;
+    background-color: #efefef;
+    font-size: 16px;
+    height: 20px;
+}
+
+.button {
+    background-color: #1B9CFC;
+    color: #efefef;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    box-shadow: 2px 2px 2px 2px #57606f;
+    height: 40px;
+    margin-left: 5px;
+}
+
+.button:hover {
+    background-color: #f9ca24;
+}
+
+@media only screen and (max-width: 768px) {
+    .input {
+        font-size: 14px;
+        height: 15px;
+    }
+
+    .button {
+        font-size: 14px;
+        height: 32px;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .input {
+        font-size: 16px;
+        height: 20px;
+    }
+
+    .button {
+        font-size: 16px;
+        height: 40px;
+    }
+}

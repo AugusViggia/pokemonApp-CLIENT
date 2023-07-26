@@ -1,0 +1,163 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #EA2027;
+    overflow: hidden;
+}
+
+.buttonDiv{
+    align-self: flex-start;
+    margin-left: 15px;
+    margin-bottom: 30px;
+    width: 60px;
+    text-align: center;
+    background-color: #1B9CFC;
+    box-shadow: 2px 2px 2px 2px #57606f;
+    border-radius: 3px;
+}
+
+.button{
+    color: #fff;
+    text-decoration: none;
+}
+
+.buttonDiv:hover {
+    background-color: #f9ca24;
+}
+
+.wrapper{
+        display: flex;
+        flex-direction: column;
+        width: fit-content;
+        background-color: #f9ca24;
+        border: 3px solid #ccc;
+        border-radius: 3px;
+        box-shadow: 1px 1px 2px 3px black;
+}
+
+.infoDiv{
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+}
+
+.nameDiv{
+    font-size: 30px;
+    margin-left: 10px;
+    font-weight: bold;
+    text-align: left;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.imageDiv {
+    margin-left: 10px;
+    margin-right: 5px;
+    width: 300px;
+    height: 250px;
+    align-self: center;
+    align-content: center;
+    background-color: #f5f6fa;
+    box-shadow: 3px 2px 3px 4px #333;
+    margin-bottom: 10px;
+}
+
+.image{
+    width: 300px;
+    height: 250px;
+    align-self: center;
+}
+
+.details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    background-color: #f5f6fa;
+    box-shadow: 3px 2px 3px 4px #333;
+    border-radius: 3px;
+}
+
+.label {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+.value {
+    margin-bottom: 2px;
+}
+
+.types{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    background-color: #f5f6fa;
+    box-shadow: 3px 2px 3px 4px #333;
+    border-radius: 3px;
+}
+
+.type {
+    display: inline-block;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    border-radius: 20px;
+}
+
+.typeList{
+    align-items: center;
+}
+
+@media only screen and (max-width: 600px) {
+
+    .container {
+        height: 100hv;
+    }
+
+    .wrapper {
+        width: 90%;
+        margin-bottom: 30px;
+    }
+
+    .infoDiv {
+        flex-direction: column;
+    }
+
+    .nameDiv {
+        margin-bottom: 10px;
+    }
+
+    .imageDiv {
+        width: 95%;
+        margin-left: 0;
+        height: auto;
+        margin-bottom: 20px;
+    }
+
+    .details {
+        grid-template-columns: 1fr;
+    }
+
+    .grid {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .types {
+        width: 90%;
+        margin: 0 auto;
+    }
+}
