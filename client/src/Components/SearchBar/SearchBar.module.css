@@ -30,26 +30,18 @@
     background-color: #f9ca24;
 }
 
-@media only screen and (max-width: 768px) {
+@media (max-width: 780px) {
+    .searchForm{
+        margin-left: 0;
+    }
+
     .input {
-        font-size: 14px;
-        height: 15px;
+        font-size: 0.5rem;
+        height: 3vh;
     }
 
     .button {
-        font-size: 14px;
-        height: 32px;
-    }
-}
-
-@media only screen and (min-width: 768px) {
-    .input {
-        font-size: 16px;
-        height: 20px;
-    }
-
-    .button {
-        font-size: 16px;
-        height: 40px;
+        font-size: 1rem;
+        height: 4vh;
     }
 }

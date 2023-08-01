@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPokemons } from "../../Redux/Actions/Actions-Functions/actions-pokemons";
 import { getTypes } from "../../Redux/Actions/Actions-Functions/actions-pokemonTypes";
 import { filterByType, sortByAttack, filterByOrigin, sortByName, resetFilters } from "../../Redux/Actions/Actions-Functions/actions-filter";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 import style from './Filter.module.css';
 
 const Filter = () => {
@@ -62,7 +64,7 @@ const Filter = () => {
         <div className={style.filterContainer}>
 
             <div>
-                <button onClick={handleResetFilters} className={style.resetFilters}>Reset Filters</button>
+                <FontAwesomeIcon className={style.refresh} onClick={handleResetFilters} icon={faArrowRotateRight} beat />
             </div>
 
             <div className={style.filter}>

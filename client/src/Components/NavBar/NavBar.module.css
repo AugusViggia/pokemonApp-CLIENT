@@ -31,3 +31,26 @@
     transition: all 0.3s ease-in-out;
     box-shadow: 2px 2px 2px 2px #57606f;
 }
+
+.buttonForm:hover {
+    color: #fff;
+    background-color: #f9ca24;
+}
+
+@media (max-width: 780px) {
+    .navBarContainer {
+        max-width: fit-content;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .formLinkDiv{
+        max-width: 90vw;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .buttonForm{
+        margin-bottom: 0.5rem;
+    }
+}
