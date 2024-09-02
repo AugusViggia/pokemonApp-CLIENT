@@ -6,6 +6,8 @@ import { getTypes } from "../../Redux/Actions/Actions-Functions/actions-pokemonT
 import allFieldsValid from "./validations";
 import axios from "axios";
 
+axios.defaults.baseURL = "https://pokemonapp-api-production.up.railway.app";
+
 const CreatePokemon = () => {
     const [selectedTypes, setSelectedTypes] = useState([]);
 
@@ -72,7 +74,9 @@ const CreatePokemon = () => {
 
         if (allFieldsValid(input, error)) {
             try {
-                const response = await axios.get(`http://localhost:3001/pokemon?name=${input.name}`);
+                const response = await axios.get(
+                  `${axios.defaults.baseURL}/pokemon?name=${input.name}`
+                );
                 if (response.data.length > 0) {
                     alert(`Pokemon ${input.name} already exists.`);
                     return;
@@ -84,7 +88,10 @@ const CreatePokemon = () => {
             };
 
             try {
-                await axios.post("http://localhost:3001/pokemon/post", input);
+                await axios.post(
+                  `${axios.defaults.baseURL}/pokemon/post`,
+                  input
+                );
                 alert("Pokemon was creaated.");
                 navigate("/home")
             } catch (error) {
