@@ -119,6 +119,13 @@ button[type="submit"]:hover {
     text-align: center;
 }
 
+.imgprev{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
 @media only screen and (max-width: 600px) {
     .form {
         padding: 5px;

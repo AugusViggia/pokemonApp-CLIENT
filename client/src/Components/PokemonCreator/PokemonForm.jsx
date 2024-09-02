@@ -72,7 +72,7 @@ const PokemonForm = ({ onSubmit, onChange, input, error, types, selectedTypes, o
           <div className={style.formGroup}>
             {imagePreview && (
               <div className={style.imagePreview}>
-                <img src={imagePreview} alt="Image preview" />
+                <img src={imagePreview} alt="Image preview" className={style.imgprev}/>
               </div>
             )}
           </div>
