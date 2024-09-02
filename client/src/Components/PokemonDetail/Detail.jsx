@@ -34,69 +34,82 @@ const Detail = () => {
     };
 
     return (
-        <div className={style.container}>
-            <>
-                <div className={style.buttonDiv}>
-                    <Link to="/home" className={style.button}>
-                        BACK
-                    </Link>
+      <div className={style.container}>
+        <>
+          <div className={style.buttonDiv}>
+            <Link to="/home" className={style.button}>
+              BACK
+            </Link>
+          </div>
+          <div className={style.wrapper}>
+            <div className={style.nameDiv}>
+              <p className={style.name}>{capitalizedName}</p>
+            </div>
+            <div className={style.infoDiv}>
+              <div className={style.imageDiv}>
+                <img
+                  src={pokemonDetailsArray[0]?.image}
+                  alt=""
+                  className={style.image}
+                />
+              </div>
+              <div className={style.details}>
+                <div className={style.grid}>
+                  <div className={style.detail}>
+                    <p className={style.label}>HP</p>
+                    <p className={style.value}>{pokemonDetailsArray[0]?.hp}</p>
+                  </div>
+                  <div className={style.detail}>
+                    <p className={style.label}>HEIGHT</p>
+                    <p className={style.value}>
+                      {pokemonDetailsArray[0]?.height}
+                    </p>
+                  </div>
+                  <div className={style.detail}>
+                    <p className={style.label}>WEIGHT</p>
+                    <p className={style.value}>
+                      {pokemonDetailsArray[0]?.weight}
+                    </p>
+                  </div>
+                  <div className={style.detail}>
+                    <p className={style.label}>ATTACK</p>
+                    <p className={style.value}>
+                      {pokemonDetailsArray[0]?.attack}
+                    </p>
+                  </div>
+                  <div className={style.detail}>
+                    <p className={style.label}>DEFENSE</p>
+                    <p className={style.value}>
+                      {pokemonDetailsArray[0]?.defense}
+                    </p>
+                  </div>
+                  <div className={style.detail}>
+                    <p className={style.label}>SPEED</p>
+                    <p className={style.value}>
+                      {pokemonDetailsArray[0]?.speed}
+                    </p>
+                  </div>
                 </div>
-                <div className={style.wrapper}>
-                    <div className={style.nameDiv}>
-                        <p className={style.name}>{capitalizedName}</p>
-                    </div>
-                    <div className={style.infoDiv}>
-                        <div className={style.imageDiv}>
-                            <img
-                                src={pokemonDetailsArray[0]?.image}
-                                alt=""
-                                className={style.image}
-                            />
+                <div className={style.types}>
+                  <p className={style.label}>TYPES</p>
+                  <div className={style.typeList}>
+                    {pokemonDetailsArray[0]?.types.map((type, index) => {
+                      return (
+                        <div className={style.type} key={index}>
+                          {typeof type === "object" ? type.name : type}
                         </div>
-                        <div className={style.details}>
-                            <div className={style.grid}>
-                                <div className={style.detail}>
-                                    <p className={style.label}>HP</p>
-                                    <p className={style.value}>{pokemonDetailsArray[0]?.hp}</p>
-                                </div>
-                                <div className={style.detail}>
-                                    <p className={style.label}>HEIGHT</p>
-                                    <p className={style.value}>{pokemonDetailsArray[0]?.height}</p>
-                                </div>
-                                <div className={style.detail}>
-                                    <p className={style.label}>WEIGHT</p>
-                                    <p className={style.value}>{pokemonDetailsArray[0]?.weight}</p>
-                                </div>
-                                <div className={style.detail}>
-                                    <p className={style.label}>ATTACK</p>
-                                    <p className={style.value}>{pokemonDetailsArray[0]?.attack}</p>
-                                </div>
-                                <div className={style.detail}>
-                                    <p className={style.label}>DEFENSE</p>
-                                    <p className={style.value}>{pokemonDetailsArray[0]?.defense}</p>
-                                </div>
-                                <div className={style.detail}>
-                                    <p className={style.label}>SPEED</p>
-                                    <p className={style.value}>{pokemonDetailsArray[0]?.speed}</p>
-                                </div>
-                            </div>
-                            <div className={style.types}>
-                                <p className={style.label}>TYPES</p>
-                                <div className={style.typeList}>
-                                    {pokemonDetailsArray[0]?.types.map((type, index) => {
-                                        return (
-                                            <div className={style.type} key={index}>
-                                                {typeof type === 'object' ? type.name : type}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                      );
+                    })}
+                  </div>
                 </div>
-            </>
+              </div>
+            </div>
+          </div>
+        </>
+        <div className={style.copyright}>
+          Copyright&copy; {new Date().getFullYear()} All rights reserved
         </div>
+      </div>
     );
 };
 

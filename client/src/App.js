@@ -12,12 +12,12 @@ axios.defaults.baseURL = "https://pokemonapp-api-production.up.railway.app";
 function App() {
   return (
     <div className="App">
-        <Routes>
-          <Route exact path="/" element={<Landing />} />
-          <Route exact path="/home" element={<Home />} />
-          <Route path="/detail/:id" element={<Detail />} />
-          <Route path="/form" element={<CreatePokemon />} />
-        </Routes>
+      <Routes>
+        <Route exact path="/" element={<Landing />} />
+        <Route exact path="/home" element={<Home />} />
+        <Route path="/detail/:id" element={<Detail />} />
+        <Route path="/form" element={<CreatePokemon />} />
+      </Routes>
     </div>
   );
 };

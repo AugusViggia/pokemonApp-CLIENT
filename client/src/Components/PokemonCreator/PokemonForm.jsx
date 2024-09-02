@@ -196,6 +196,9 @@ const PokemonForm = ({ onSubmit, onChange, input, error, types, selectedTypes, o
             CREATE POKEMON
           </button>
         </form>
+        <div className={style.copyright}>
+          Copyright&copy; {new Date().getFullYear()} All rights reserved
+        </div>
       </div>
     );
 };

@@ -29,14 +29,17 @@ const Home = () => {
     };
 
     return (
-        <div className={style.home}>
-            <h2 className={style.pokedex}>PokeDeX!</h2>
-            <div className={style.navBar}>
-                <NavBar/>
-            </div>
-            <CardsContainer />
+      <div className={style.home}>
+        <h2 className={style.pokedex}>PokeDeX!</h2>
+        <div className={style.navBar}>
+          <NavBar />
         </div>
-    )
+        <CardsContainer />
+        <div className={style.copyright}>
+          Copyright&copy; {new Date().getFullYear()} All rights reserved
+        </div>
+      </div>
+    );
 };
 
 export default Home;

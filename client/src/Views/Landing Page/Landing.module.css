@@ -52,6 +52,14 @@
     background-color: #4cd137;
 }
 
+.copyright{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
 @media (max-width: 780px) {
     .container{
         max-width: fit-content;
