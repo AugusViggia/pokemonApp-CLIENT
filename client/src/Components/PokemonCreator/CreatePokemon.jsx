@@ -6,8 +6,6 @@ import { getTypes } from "../../Redux/Actions/Actions-Functions/actions-pokemonT
 import allFieldsValid from "./validations";
 import axios from "axios";
 
-axios.defaults.baseURL = "https://pokemonapp-api-production.up.railway.app";
-
 const CreatePokemon = () => {
     const [selectedTypes, setSelectedTypes] = useState([]);
 
