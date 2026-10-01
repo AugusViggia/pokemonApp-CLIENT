@@ -1,5 +1,6 @@
 export const GET_POKEMONS = "GET_POKEMONS";
 export const GET_DETAILS = "GET_DETAILS";
+export const REMOVE_POKEMON = "REMOVE_POKEMON";
 export const GET_TYPES = "GET_TYPES";
 
 export const FILTER_TYPE = "FILTER_TYPE";
@@ -10,5 +11,8 @@ export const FILTER_ORIGIN = "FILTER_ORIGIN";
 export const RESET_FILTERS = "RESET_FILTERS";
 
 export const SEARCH_NAME = "SEARCH_NAME";
+export const SEARCH_NAME_INPUT = "SEARCH_NAME_INPUT";
 
 export const SET_LOADING = "SET_LOADING";
+export const SET_FILTER_LOADING = "SET_FILTER_LOADING";
+export const SET_FILTER_REFRESH_LOADING = "SET_FILTER_REFRESH_LOADING";

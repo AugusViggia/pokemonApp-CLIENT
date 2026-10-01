@@ -1,80 +1,166 @@
 .filterContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: auto minmax(250px, 1.45fr) repeat(3, minmax(90px, 1fr));
+  gap: .5rem;
+  align-items: start;
 }
 
 .filter {
-    margin-right: 12px;
-    font-weight: bold;
-    color: black;
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+  color: #60708a;
+  font-size: .7rem;
+  font-weight: 600;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.typeFilterBlock {
+  height: 6.35rem;
+  min-height: 6.35rem;
+  min-width: 255px;
+}
+
+.typeFilterContent {
+  display: flex;
+  flex-direction: column;
+  gap: .38rem;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .select {
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-right: 10px;
-    font-size: 16px;
-    color: black;
-    width: 150px;
-    cursor: pointer;
+  width: 100%;
+  padding: .58rem .62rem;
+  border: 1px solid #dbe3ef;
+  border-radius: 9px;
+  outline: none;
+  color: #233650;
+  background: #fff;
+  cursor: pointer;
+  font-size: .78rem;
+  min-width: 0;
 }
 
-.option {
-    background-color: #fff;
-    color: black;
-    width: 150px;
-    cursor: pointer;
+.select:focus {
+  border-color: #3b82f6;
 }
 
-.typeFilter{
-    width: 150px;
+.selectedTypes {
+  min-height: 2.15rem;
+  height: 2.15rem;
+  width: 100%;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(2, 96px);
+  align-items: center;
+  gap: .35rem;
+  overflow: visible;
 }
 
-.originFilter {
-    width: 150px;
+.typeCard {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  width: 96px;
+  min-width: 96px;
+  max-width: 96px;
+  box-sizing: border-box;
+  padding: .3rem 1.3rem .3rem .58rem;
+  border: 1px solid rgba(255,255,255,.9);
+  border-radius: 10px;
+  box-shadow: 4px 5px 9px rgba(54,73,103,.13), inset 1px 1px 0 rgba(255,255,255,.4);
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: capitalize;
 }
 
-.orderFilter {
-    width: 150px;
+.typeCard span {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: nowrap;
 }
 
-.attackFilter {
-    width: 150px;
+.typeRemove {
+  position: absolute;
+  right: .28rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,.25);
+  color: inherit;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: .15s ease;
 }
 
-.refresh{
-    cursor: pointer;
-    margin-top: 1.5rem;
-    margin-right: 1rem;
-    font-size: 1.6rem;
-    color: #f9ca24;
+.typeCard:hover .typeRemove,
+.typeCard:focus-within .typeRemove {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.refresh:hover{
-    color: #fff;
-    background-color: #f9ca24;
-    border-radius: 0.3rem;
+.typeRemove:hover {
+  background: rgba(255,255,255,.8);
+  color: #10233e;
 }
 
-@media (max-width: 780px) {
-    .filterContainer {
-        display: grid;
-        justify-content: flex-start;
-        align-items: flex-start;
-        grid-template-columns: 1fr;
-    }
+.refreshWrap {
+  display: flex;
+  align-items: flex-start;
+  min-height: 6.35rem;
+  height: 6.35rem;
+  padding-top: 1.05rem;
+  box-sizing: border-box;
+}
 
-    .filter {
-        margin-top: 0.5rem;
-        margin-bottom: 0.5rem;
-        margin-right: 0;
-    }
+.refresh {
+  padding: .55rem;
+  color: #60708a;
+  cursor: pointer;
+  font-size: 1.05rem;
+  transition: .2s;
+}
 
-    .refresh{
-        margin-bottom: 0.5rem;
-    }
+.refresh:hover {
+  color: #ef4444;
+  transform: rotate(90deg);
+}
+
+@media(max-width:950px) {
+  .filterContainer {
+    grid-template-columns: auto repeat(2, minmax(110px, 1fr));
+  }
+
+  .typeFilterBlock {
+    min-width: 0;
+  }
+
+  .refreshWrap {
+    grid-column: span 2;
+  }
+}
+
+@media(max-width:450px) {
+  .filterContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .refreshWrap {
+    grid-column: auto;
+  }
 }

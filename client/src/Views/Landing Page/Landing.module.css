@@ -1,24 +1,6 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-image: url('pokemon.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
+.container { min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; position:relative; overflow:hidden; background:linear-gradient(130deg,rgba(8,20,45,.9),rgba(13,55,98,.66)),url('pokemon.png') center/cover; color:#fff; }
 
-.title {
-    margin-bottom: 2rem;
-    text-align: center;
-    color: #f9ca24;
-    text-shadow: 5px 5px #000;
-    font-size: 8rem;
-    text-decoration: solid;
-    font-weight: bold;
-}
+.title { z-index:1; margin-bottom:2rem; text-align:center; color:#fff; text-shadow:0 10px 35px rgba(0,0,0,.35); font-size:clamp(4rem,12vw,9rem); letter-spacing:-.08em; line-height:.9; font-weight:800; text-transform:uppercase; }
 
 .title h1 {
     font-size: 5rem;
@@ -26,38 +8,18 @@
     text-transform: uppercase;
 }
 
-.linkList {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+.linkList { z-index:1; display:flex; justify-content:center; align-items:center; }
 
-.button {
-    display: inline-block;
-    margin: 0.5rem;
-    padding: 1.5rem 3rem;
-    border: none;
-    border-radius: 5px;
-    background-color: #00a8ff;
-    color: #fff;
-    font-size: 1.5rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.3s ease-in-out;
-}
+.button { display:inline-flex; align-items:center; margin:.5rem; padding:1rem 1.75rem; border-radius:999px; background:#fff; color:#10233e; font-size:1rem; font-weight:700; text-transform:uppercase; text-decoration:none; box-shadow:0 15px 30px rgba(0,0,0,.25); transition:.25s ease; }
 
-.button:hover {
-    transform: scale(1.1);
-    background-color: #4cd137;
-}
+.button:hover { transform:translateY(-4px); background:#facc15; }
 
 .copyright{
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    text-align: center;
+    z-index:1; text-align: center; color:rgba(255,255,255,.7); font-size:.8rem;
 }
 
 @media (max-width: 780px) {

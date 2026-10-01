@@ -1,129 +1,138 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import PokemonForm from "./PokemonForm";
 import { getTypes } from "../../Redux/Actions/Actions-Functions/actions-pokemonTypes";
+import { getPokemons } from "../../Redux/Actions/Actions-Functions/actions-pokemons";
 import allFieldsValid from "./validations";
 import axios from "axios";
+import FormFeedbackModal from "./FormFeedbackModal";
+
+const initialInput = {
+  name: "", image: "", hp: 0, height: 0, weight: 0,
+  attack: 0, defense: 0, speed: 0, types: [],
+};
+
+const initialError = {
+  name: "", image: "", hp: "", height: "", weight: "",
+  attack: "", defense: "", speed: "", types: "",
+};
 
 const CreatePokemon = () => {
-    const [selectedTypes, setSelectedTypes] = useState([]);
+  const [selectedTypes, setSelectedTypes] = useState([]);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [feedbackError, setFeedbackError] = useState("");
+  const [input, setInput] = useState(initialInput);
+  const [error, setError] = useState(initialError);
+  const [formKey, setFormKey] = useState(0);
+  const [formRefreshing, setFormRefreshing] = useState(false);
 
-    const types = useSelector((state) => state.types);
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+  const types = useSelector((state) => state.types);
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(getTypes());
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(getTypes());
+  }, [dispatch]);
 
-    const [input, setInput] = useState({
-        name: "",
-        image: "",
-        hp: 0,
-        height: 0,
-        weight: 0,
-        attack: 0,
-        defense: 0,
-        speed: 0,
-        types: [],
-    });
+  const resetForm = () => {
+    setInput(initialInput);
+    setError(initialError);
+    setSelectedTypes([]);
+    setFormKey((key) => key + 1);
+  };
 
-    const [error, setError] = useState({
-        name: "",
-        image: "",
-        hp: "",
-        height: "",
-        weight: "",
-        attack: "",
-        defense: "",
-        speed: "",
-        types: "",
-    });
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setInput((prev) => ({ ...prev, [name]: value }));
+  };
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setInput((prevInput) => ({
-            ...prevInput,
-            [name]: value,
-        }));
-    };
+  const handleCheck = (event) => {
+    const selectedType = String(event.target.value);
+    const checked = event.target.checked;
+    const nextTypes = checked
+      ? [...selectedTypes.filter((type) => String(type) !== selectedType), selectedType].slice(-2)
+      : selectedTypes.filter((type) => String(type) !== selectedType);
 
-    const handleCheck = (event) => {
-        const selectedType = parseInt(event.target.value);
-        const checked = event.target.checked;
+    setSelectedTypes(nextTypes);
+    setInput((prev) => ({ ...prev, types: nextTypes }));
+  };
 
-        if (checked && selectedTypes.length < 2) {
-            setSelectedTypes((prevSelectedTypes) => [...prevSelectedTypes, selectedType]);
-        } else if (!checked && selectedTypes.includes(selectedType)) {
-            setSelectedTypes((prevSelectedTypes) =>
-                prevSelectedTypes.filter((type) => type !== selectedType)
-            );
-        }
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-        setInput((prevInput) => ({
-            ...prevInput,
-            types: checked ? [...prevInput.types, selectedType] : prevInput.types.filter((type) => type !== selectedType),
-        }));
-    };
+    if (!allFieldsValid(input, error)) {
+      setFeedbackError("Check that the name has 4-30 characters, choose at least one type, upload a JPG/JPEG image, and complete all stats between 1 and 999.");
+      return;
+    }
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    try {
+      const response = await axios.get(`/pokemon?name=${encodeURIComponent(input.name)}`);
+      if (response.data.length > 0) {
+        setFeedbackError(`Pokemon ${input.name} already exists.`);
+        return;
+      }
 
-        if (allFieldsValid(input, error)) {
-            try {
-                const response = await axios.get(
-                  `${axios.defaults.baseURL}/pokemon?name=${input.name}`
-                );
-                if (response.data.length > 0) {
-                    alert(`Pokemon ${input.name} already exists.`);
-                    return;
-                };
-            } catch (error) {
-                console.error(error);
-                alert(`Verification error: ${error.message}`);
-                return;
-            };
+      await axios.post(`/pokemon/post`, input);
+      setSuccessMessage(`${input.name} was created successfully.`);
+    } catch (err) {
+      console.error(err);
+      const responseData = err.response?.data;
+      const details = responseData?.details?.join("; ");
+      setFeedbackError(details || responseData?.error || err.message || "Creation error.");
+    }
+  };
 
-            try {
-                await axios.post(
-                  `${axios.defaults.baseURL}/pokemon/post`,
-                  input
-                );
-                alert("Pokemon was creaated.");
-                navigate("/home")
-            } catch (error) {
-                console.error(error);
-                alert(`Creation error: ${error.message}`);
-            };
-        } else {
-            alert("Select at least one type.");
-        }
+  const handleSuccessConfirm = async () => {
+    setSuccessMessage("");
+    resetForm();
+    setFormRefreshing(true);
 
-        setInput({
-            name: "",
-            image: "",
-            hp: 0,
-            height: 0,
-            weight: 0,
-            attack: 0,
-            defense: 0,
-            speed: 0,
-            types: [],
-        });
-    };
+    try {
+      const minimumLoadingTime = new Promise((resolve) => setTimeout(resolve, 1200));
+      await Promise.all([
+        dispatch(getPokemons({ silent: true, force: true })),
+        minimumLoadingTime,
+      ]);
+    } catch (err) {
+      setFeedbackError(
+        "The Pokémon was created, but the Pokédex could not be refreshed. Return to the Pokédex to try again."
+      );
+    } finally {
+      setFormRefreshing(false);
+    }
+  };
 
-    return (
-        <PokemonForm
-            onSubmit={handleSubmit}
-            onChange={handleChange}
-            input={input}
-            error={error}
-            types={types}
-            selectedTypes={selectedTypes}
-            onCheck={handleCheck}
+  return (
+    <>
+      <PokemonForm
+        key={formKey}
+        onSubmit={handleSubmit}
+        onChange={handleChange}
+        input={input}
+        error={error}
+        types={types}
+        selectedTypes={selectedTypes}
+        onCheck={handleCheck}
+        isRefreshing={formRefreshing}
+      />
+
+      {successMessage && (
+        <FormFeedbackModal
+          title="Pokemon created"
+          message={successMessage}
+          onConfirm={handleSuccessConfirm}
         />
-    );
+      )}
+
+      {feedbackError && (
+        <FormFeedbackModal
+          title="Could not create Pokémon"
+          message={feedbackError}
+          error
+          onConfirm={() => setFeedbackError("")}
+        />
+      )}
+    </>
+  );
 };
 
 export default CreatePokemon;

@@ -6,19 +6,62 @@ import {
     RESET_FILTERS,
 } from "../Actions-Types/action-types";
 
-export const filterByType = (type) => {
+const normalizeType = (type) => {
+    const value = typeof type === "object" ? type?.name : type;
+    return String(value || "").trim().toLowerCase();
+};
+
+const matchesOrigin = (pokemon, origin) => {
+    if (origin === "data base") return pokemon.created === true;
+    if (origin === "api") return pokemon.created === false;
+    return true;
+};
+
+const matchesTypes = (pokemon, selectedTypes) => {
+    if (!selectedTypes.length) return true;
+
+    const pokemonTypes = (pokemon.types || []).map(normalizeType);
+    return selectedTypes.every((type) => pokemonTypes.includes(normalizeType(type)));
+};
+
+const matchesName = (pokemon, searchTerm) => {
+    const value = String(searchTerm || "").trim().toLowerCase();
+    if (!value) return true;
+    return String(pokemon.name || "").toLowerCase().includes(value);
+};
+
+const getFilteredPokemons = (state, selectedTypes = state.selectedTypes || [], origin = state.originFilter || "all", searchTerm = state.searchTerm || "") => {
+    const source = state.allPokemons?.length ? state.allPokemons : state.pokemons;
+    const normalizedTypes = selectedTypes.map(normalizeType).filter(Boolean).slice(0, 2);
+
+    return source.filter((pokemon) =>
+        matchesOrigin(pokemon, origin) &&
+        matchesTypes(pokemon, normalizedTypes) &&
+        matchesName(pokemon, searchTerm)
+    );
+};
+
+export const filterByType = (types) => {
     return (dispatch, getState) => {
         try {
-            const pokemons = getState().pokemons;
+            const state = getState();
+            const selectedTypes = (Array.isArray(types) ? types : [types])
+                .map(normalizeType)
+                .filter(Boolean)
+                .slice(0, 2);
 
-            const filterTypePokemons = pokemons.filter((pokemon) =>
-                pokemon.types.includes(type)
-            );
+            const filteredPokemons = getFilteredPokemons(state, selectedTypes);
 
-            dispatch({ type: FILTER_TYPE, payload: filterTypePokemons });
+            dispatch({
+                type: FILTER_TYPE,
+                payload: filteredPokemons,
+                selectedTypes,
+            });
+
+            return true;
         } catch (error) {
             console.error(error);
-            alert(`No pokemon with ${type} found`, error.message);
+            return false;
         }
     };
 };
@@ -34,7 +77,7 @@ export const sortByAttack = (sortBy) => {
                 pokemons.sort((a, b) => b.attack - a.attack);
             }
     
-            dispatch({ type: SORT_ATTACK, payload: pokemons });
+            dispatch({ type: SORT_ATTACK, payload: pokemons, sortBy });
         } catch (error) {
             console.error(error);
             alert("Error sorting Pokémon by attack", error.message);
@@ -53,7 +96,7 @@ export const sortByName = (sortOrder) => {
                 pokemons.sort((a, b) => b.name.localeCompare(a.name));
             }
 
-            dispatch({ type: SORT_NAME, payload: pokemons });
+            dispatch({ type: SORT_NAME, payload: pokemons, sortOrder });
         } catch (error) {
             console.error(error);
             alert("Error sorting Pokémon by name", error.message);
@@ -64,24 +107,23 @@ export const sortByName = (sortOrder) => {
 export const filterByOrigin = (origin) => {
     return (dispatch, getState) => {
         try {
-            const pokemons = getState().pokemons;
+            const state = getState();
+            const selectedTypes = state.selectedTypes || [];
+            const filteredOrigin = getFilteredPokemons(state, selectedTypes, origin);
 
-            const filteredOrigin = pokemons.filter((pokemon) => {
-                if (origin === "all") {
-                    return true;
-                } else if (origin === "data base") {
-                    return isNaN(pokemon.id);
-                } else if (origin === "api") {
-                    return pokemon.id <= 1281;
-                } else {
-                    return false;
-                }
+            if (origin !== "all" && filteredOrigin.length === 0) {
+                return false;
+            }
+
+            dispatch({
+                type: FILTER_ORIGIN,
+                payload: filteredOrigin,
+                origin,
             });
-
-            dispatch({ type: FILTER_ORIGIN, payload: filteredOrigin });
+            return true;
         } catch (error) {
             console.error(error);
-            alert("Error filtering Pokémon by origin", error.message);
+            return false;
         }
     };
 };

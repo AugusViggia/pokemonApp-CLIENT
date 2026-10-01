@@ -1,47 +1,86 @@
 .searchForm {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-left: 15px;
+  position: relative;
+  display: flex;
+  flex: 1;
+  gap: .5rem;
+  justify-content: flex-end;
+}
+
+.inputWrapper {
+  position: relative;
+  width: min(100%, 360px);
+  flex: 1 1 auto;
 }
 
 .input {
-    border: none;
-    border-radius: 2px;
-    background-color: #efefef;
-    font-size: 16px;
-    height: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: .65rem 2.4rem .65rem .85rem;
+  border: 1px solid #dbe3ef;
+  border-radius: 10px;
+  outline: none;
+  background: #fff;
+  color: #10233e;
+}
+
+.input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px #dbeafe;
+}
+
+.clearButton {
+  position: absolute;
+  top: 50%;
+  right: .45rem;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #7b8794;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s ease, background .15s ease, color .15s ease;
+}
+
+.inputWrapper:hover .clearButton,
+.inputWrapper:focus-within .clearButton {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.clearButton:hover {
+  background: #eef2f7;
+  color: #10233e;
 }
 
 .button {
-    background-color: #1B9CFC;
-    color: #efefef;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.2s;
-    cursor: pointer;
-    box-shadow: 2px 2px 2px 2px #57606f;
-    height: 40px;
-    margin-left: 5px;
+  flex: 0 0 auto;
+  padding: .65rem .95rem;
+  border: 0;
+  border-radius: 10px;
+  background: #3b82f6;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .2s;
 }
 
 .button:hover {
-    background-color: #f9ca24;
+  background: #2563eb;
 }
 
-@media (max-width: 780px) {
-    .searchForm{
-        margin-left: 0;
-    }
+@media(max-width:640px) {
+  .searchForm {
+    justify-content: stretch;
+  }
 
-    .input {
-        font-size: 0.5rem;
-        height: 3vh;
-    }
-
-    .button {
-        font-size: 1rem;
-        height: 4vh;
-    }
+  .inputWrapper {
+    width: auto;
+  }
 }

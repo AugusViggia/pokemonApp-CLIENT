@@ -1,0 +1,20 @@
+/* Single source of truth for Pokémon type colors. */
+
+.pokemon-type-normal { --pokemon-type-bg: #A8A77A; --pokemon-type-text: #fff; }
+.pokemon-type-fire { --pokemon-type-bg: #F04438; --pokemon-type-text: #fff; }
+.pokemon-type-water { --pokemon-type-bg: #6390F0; --pokemon-type-text: #fff; }
+.pokemon-type-electric { --pokemon-type-bg: #F7D02C; --pokemon-type-text: #4f4300; }
+.pokemon-type-grass { --pokemon-type-bg: #78C850; --pokemon-type-text: #fff; }
+.pokemon-type-ice { --pokemon-type-bg: #98D8D8; --pokemon-type-text: #164e63; }
+.pokemon-type-fighting { --pokemon-type-bg: #C22E28; --pokemon-type-text: #fff; }
+.pokemon-type-poison { --pokemon-type-bg: #A33EA1; --pokemon-type-text: #fff; }
+.pokemon-type-ground { --pokemon-type-bg: #E2BF65; --pokemon-type-text: #55400e; }
+.pokemon-type-flying { --pokemon-type-bg: #A98FF3; --pokemon-type-text: #fff; }
+.pokemon-type-psychic { --pokemon-type-bg: #F95587; --pokemon-type-text: #fff; }
+.pokemon-type-bug { --pokemon-type-bg: #A6B91A; --pokemon-type-text: #fff; }
+.pokemon-type-rock { --pokemon-type-bg: #B6A136; --pokemon-type-text: #fff; }
+.pokemon-type-ghost { --pokemon-type-bg: #735797; --pokemon-type-text: #fff; }
+.pokemon-type-dragon { --pokemon-type-bg: #6F35FC; --pokemon-type-text: #fff; }
+.pokemon-type-dark { --pokemon-type-bg: #705746; --pokemon-type-text: #fff; }
+.pokemon-type-steel { --pokemon-type-bg: #B7B7CE; --pokemon-type-text: #303047; }
+.pokemon-type-fairy { --pokemon-type-bg: #D685AD; --pokemon-type-text: #fff; }

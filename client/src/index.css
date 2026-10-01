@@ -1,13 +1,10 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+:root { --ink: #10233e; --muted: #61708a; --red: #d62828; --red-dark: #b91c1c; --blue: #3b82f6; --paper: #f8f5f5; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: 'Outfit', sans-serif; color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; }
+button, input, select { font: inherit; }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'DM Mono', monospace;
 }

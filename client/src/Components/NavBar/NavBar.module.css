@@ -1,56 +1,89 @@
-.navBarContainer{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 3vh;
-    min-width: 50vw;
+.navBarContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.7rem;
+  padding: .85rem 1rem;
+  background: rgba(255,255,255,.84);
+  border: 1px solid #fff;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(130,35,35,.09);
 }
 
-.formLinkDiv{
-    display: flex;
-    flex-direction: row;
-    min-width: 50vw;
-    justify-content: space-between;
+.creatorRow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
 }
 
 .buttonForm {
-    display: flex;
-    margin-right: 15px;
-    padding: 1rem 2rem;
-    border: none;
-    border-radius: 3px;
-    background-color: #1B9CFC;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 600;
-    height: 10px;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 2px 2px 2px 2px #57606f;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  padding: .58rem .75rem;
+  border-radius: 10px;
+  background: #d62828;
+  color: #fff;
+  text-decoration: none;
+  font-size: .74rem;
+  font-weight: 700;
+  transition: .2s;
 }
 
 .buttonForm:hover {
-    color: #fff;
-    background-color: #f9ca24;
+  background: #b91c1c;
+  transform: translateY(-2px);
 }
 
-@media (max-width: 780px) {
-    .navBarContainer {
-        max-width: fit-content;
-        display: flex;
-        flex-direction: column;
-    }
+.filtersPanel {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 14px;
+}
 
-    .formLinkDiv{
-        max-width: 90vw;
-        display: flex;
-        flex-direction: column;
-    }
+.controlsRow {
+  display: flex;
+  align-items: flex-start;
+  gap: .65rem;
+  width: 100%;
+  min-width: 0;
+}
 
-    .buttonForm{
-        margin-bottom: 0.5rem;
-    }
+.filterSection {
+  flex: 1.2 1 0;
+  min-width: 0;
+}
+
+.searchSection {
+  flex: 1 1 0;
+  min-width: 280px;
+  padding-top: 1.15rem;
+}
+
+@media (max-width: 1050px) {
+  .controlsRow {
+    gap: .5rem;
+  }
+
+  .searchSection {
+    min-width: 260px;
+    padding-top: 1.15rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .controlsRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .searchSection {
+    width: 100%;
+    min-width: 0;
+    padding-top: 0;
+  }
 }
