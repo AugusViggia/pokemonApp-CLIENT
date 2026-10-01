@@ -1154,3 +1154,174 @@
   .formCard { flex-basis:135px; width:135px; }
   .formCard img { width:92px; height:92px; }
 }
+
+@media (max-width: 720px) {
+  .container {
+    width: 100%;
+    padding: .75rem;
+  }
+
+  .page {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .wrapper,
+  .header,
+  .infoDiv,
+  .statsTypesLayout,
+  .statsColumn,
+  .types,
+  .evolutionSection,
+  .evolutionLine {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .header,
+  .infoDiv {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
+  .name {
+    font-size: clamp(1.6rem, 8vw, 2rem);
+    overflow-wrap: anywhere;
+  }
+
+  .evolutionSection {
+    padding: 1rem .75rem;
+    overflow: visible;
+  }
+
+  .evolutionLine {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .evolutionFlow:not(.eeveeEvolutionFlow) {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow: visible;
+  }
+
+  .evolutionFlow:not(.eeveeEvolutionFlow) .evolutionStep {
+    width: 100%;
+    height: auto;
+    min-width: 0;
+    min-height: 0;
+    flex: 0 1 auto;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .evolutionFlow:not(.eeveeEvolutionFlow) .chainArtwork,
+  .evolutionFlow:not(.eeveeEvolutionFlow) .chainArtworkCurrent {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    height: 205px;
+    flex: 0 1 auto;
+    border-right: 0;
+    border-bottom: 1px solid #b7cbe0;
+    box-sizing: border-box;
+  }
+
+  .evolutionFlow:not(.eeveeEvolutionFlow) .chainArtwork img {
+    width: min(42vw, 120px);
+    height: min(42vw, 120px);
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .evolutionFlow:not(.eeveeEvolutionFlow) .chainArtworkCurrent {
+    height: 230px;
+  }
+
+  .evolutionFlow:not(.eeveeEvolutionFlow) .chainArtworkCurrent img {
+    width: min(52vw, 160px);
+    height: min(52vw, 160px);
+    max-width: 100%;
+    object-fit: contain;
+    transform: none;
+  }
+
+  .evolutionFlow:not(.eeveeEvolutionFlow) .specialForms {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    height: auto;
+    flex: 0 1 auto;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px solid #b7cbe0;
+  }
+
+  .evolutionFlow:not(.eeveeEvolutionFlow) .specialFormRow {
+    min-width: 0;
+    min-height: 112px;
+    flex: 0 1 auto;
+  }
+
+  .evolutionFlow:not(.eeveeEvolutionFlow) .specialForm img {
+    width: min(22vw, 72px);
+    height: min(22vw, 72px);
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .evolutionFlow:not(.eeveeEvolutionFlow) .evolutionConnector {
+    width: min(100%, 240px);
+    min-width: 0;
+    height: auto;
+    min-height: 0;
+    flex: 0 1 auto;
+    margin: .7rem 0 1rem;
+    padding: .8rem 1rem;
+    gap: .45rem;
+    border-right: 0;
+    border-radius: 10px;
+  }
+
+  .evolutionFlow:not(.eeveeEvolutionFlow) .evolutionConnector b {
+    transform: rotate(90deg);
+  }
+
+  .eeveeEvolutionFlow {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .eeveeEvolutionFlow .eeveeCurrentColumn .chainArtworkCurrent,
+  .eeveeEvolutionFlow .eeveeCurrentColumn .chainArtworkCurrent img {
+    max-width: 100%;
+  }
+
+  .eeveeEvolutionFlow .eeveeEvolutionCard img {
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .eeveeEvolutionFlow .eeveeRequirementRow .specialFormArrow,
+  .eeveeEvolutionFlow .eeveeRequirementRow .evolutionConnectorArrow {
+    transform: rotate(90deg);
+  }
+
+  .grid,
+  .detail {
+    min-width: 0;
+  }
+
+  .detail {
+    overflow-wrap: anywhere;
+  }
+}

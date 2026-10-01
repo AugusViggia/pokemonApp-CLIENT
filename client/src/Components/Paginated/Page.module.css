@@ -7,3 +7,38 @@
 .navSlot > a, .navSlot > span { display:grid; width:100%; height:2.2rem; place-items:center; padding:0; box-sizing:border-box; }
 .navSlot > span { visibility:hidden; pointer-events:none; }
 .disabled { opacity:.42; cursor:default !important; pointer-events:none; }
+
+@media (max-width: 520px) {
+  .paginado {
+    width: 100%;
+    max-width: 100%;
+    justify-content: center;
+    gap: .05rem;
+  }
+
+  .paginado li {
+    flex: 0 0 auto;
+  }
+
+  .paginado a {
+    min-width: clamp(1.8rem, 9vw, 1.9rem);
+    height: 2.5rem;
+    padding: 0 .1rem;
+    font-size: .75rem;
+    white-space: nowrap;
+  }
+
+  .navSlot {
+    min-width: clamp(2.15rem, 12vw, 2.5rem);
+    height: 2.5rem;
+  }
+
+  .navSlot > a,
+  .navSlot > span {
+    height: 2.5rem;
+  }
+
+  .navSlot > a {
+    font-size: clamp(.68rem, 3vw, .8rem);
+  }
+}
