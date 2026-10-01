@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Landing from "./Views/Landing Page/Landing";
@@ -42,7 +42,7 @@ function AppContent() {
   }, []);
 
   // Load only the data required by the destination, in parallel when possible.
-  useEffect(() => {
+  useLayoutEffect(() => {
     const isInitialRoute = previousPath.current === null;
     const previousPathname = previousPath.current;
     previousPath.current = location.pathname;
