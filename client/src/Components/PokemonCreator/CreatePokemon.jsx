@@ -1,14 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PokemonForm from "./PokemonForm";
-import { getTypes } from "../../Redux/Actions/Actions-Functions/actions-pokemonTypes";
 import { getPokemons } from "../../Redux/Actions/Actions-Functions/actions-pokemons";
 import allFieldsValid from "./validations";
 import axios from "axios";
 import FormFeedbackModal from "./FormFeedbackModal";
 
 const initialInput = {
-  name: "", image: "", hp: 0, height: 0, weight: 0,
+  name: "", image: "", shinyImage: "", hp: 0, height: 0, weight: 0,
   attack: 0, defense: 0, speed: 0, types: [],
 };
 
@@ -28,10 +27,6 @@ const CreatePokemon = () => {
 
   const types = useSelector((state) => state.types);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getTypes());
-  }, [dispatch]);
 
   const resetForm = () => {
     setInput(initialInput);

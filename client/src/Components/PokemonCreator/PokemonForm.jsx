@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import style from "./PokemonForm.module.css";
 import ValidationError from "./ValidationError";
@@ -16,9 +16,10 @@ const PokemonForm = ({
   isRefreshing = false,
 }) => {
   const [imagePreview, setImagePreview] = useState("");
-  const [imageError, setImageError] = useState("");
+  const [shinyImagePreview, setShinyImagePreview] = useState("");
+  const [imageErrors, setImageErrors] = useState({ image: "", shinyImage: "" });
 
-  const handleImageChange = (e) => {
+  const handleImageChange = (e, fieldName) => {
     const file = e.target.files[0];
 
     if (!file) {
@@ -26,17 +27,22 @@ const PokemonForm = ({
     }
 
     if (!/^image\/jpeg$/i.test(file.type) || !/\.(jpg|jpeg)$/i.test(file.name)) {
-      setImageError("Only .jpg or .jpeg images are allowed.");
+      setImageErrors((previous) => ({ ...previous, [fieldName]: "Only .jpg or .jpeg images are allowed." }));
       e.target.value = "";
       return;
     }
 
-    setImageError("");
+    setImageErrors((previous) => ({ ...previous, [fieldName]: "" }));
     const reader = new FileReader();
     reader.onload = () => {
-      setImagePreview(reader.result);
-      onChange({ target: { name: "image", value: reader.result } });
+      if (fieldName === "image") setImagePreview(reader.result);
+      else setShinyImagePreview(reader.result);
+      onChange({ target: { name: fieldName, value: reader.result } });
     };
+    reader.onerror = () => setImageErrors((previous) => ({
+      ...previous,
+      [fieldName]: "The image could not be read. Please choose another file.",
+    }));
     reader.readAsDataURL(file);
   };
 
@@ -83,7 +89,7 @@ const PokemonForm = ({
               />
             ) : (
               <span className={style.previewPlaceholder}>
-                Add Pokémon artwork
+                Add Pokémon artwork <small>(required)</small>
               </span>
             )}
           </label>
@@ -92,10 +98,29 @@ const PokemonForm = ({
             name="image"
             type="file"
             accept=".jpg,.jpeg,image/jpeg"
-            onChange={handleImageChange}
+            onChange={(event) => handleImageChange(event, "image")}
             className={style.fileInput}
           />
-          {imageError && <ValidationError message={imageError} />}
+          {imageErrors.image && <ValidationError message={imageErrors.image} />}
+
+          <label htmlFor="shinyImage" className={`${style.imagePreview} ${style.shinyImagePreview}`}>
+            {shinyImagePreview ? (
+              <img src={shinyImagePreview} alt="Pokémon shiny preview" className={style.imgprev} />
+            ) : (
+              <span className={style.previewPlaceholder}>
+                Add shiny artwork <small>(optional)</small>
+              </span>
+            )}
+          </label>
+          <input
+            id="shinyImage"
+            name="shinyImage"
+            type="file"
+            accept=".jpg,.jpeg,image/jpeg"
+            onChange={(event) => handleImageChange(event, "shinyImage")}
+            className={style.fileInput}
+          />
+          {imageErrors.shinyImage && <ValidationError message={imageErrors.shinyImage} />}
         </div>
         <div className={style.statsGroup}>
           {[

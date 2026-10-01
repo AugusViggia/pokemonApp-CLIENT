@@ -11,6 +11,7 @@ function allFieldsValid(input, error) {
     input.height >= 1 && input.height <= 999 &&
     input.weight >= 1 && input.weight <= 999 &&
     /^data:image\/(jpeg|jpg);base64,/.test(input.image) &&
+    (!input.shinyImage || /^data:image\/(jpeg|jpg);base64,/.test(input.shinyImage)) &&
     input.types.length > 0 &&
     Object.values(error).every((val) => val === "")
   );

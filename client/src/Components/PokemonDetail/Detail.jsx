@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Loading from "../Loading/Loading";
-import { getPokemonDetails, deletePokemon } from "../../Redux/Actions/Actions-Functions/actions-pokemons";
-import { setLoading } from "../../Redux/Actions/Actions-Functions/action-loading";
+import { deletePokemon } from "../../Redux/Actions/Actions-Functions/actions-pokemons";
 import DetailFeedbackModal from "./DetailFeedbackModal";
 import EncounterLocations from "./EncounterLocations";
 import style from "./Detail.module.css";
@@ -502,7 +501,6 @@ const EvolutionChain = ({
 
 const Detail = () => {
   const pokemonDetails = useSelector((state) => state.details);
-  const loading = useSelector((state) => state.loading);
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -511,29 +509,6 @@ const Detail = () => {
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    let cancelled = false;
-    let timer = null;
-    const startedAt = Date.now();
-
-    dispatch(setLoading(true));
-
-    Promise.resolve(dispatch(getPokemonDetails(id))).finally(() => {
-      const remaining = Math.max(0, 1000 - (Date.now() - startedAt));
-
-      timer = setTimeout(() => {
-        if (!cancelled) {
-          dispatch(setLoading(false));
-        }
-      }, remaining);
-    });
-
-    return () => {
-      cancelled = true;
-      if (timer) clearTimeout(timer);
-    };
-  }, [dispatch, id]);
 
   const pokemon = Array.isArray(pokemonDetails)
     ? pokemonDetails[0]
@@ -584,7 +559,7 @@ const Detail = () => {
     : "Pokemon";
 
 
-  if (loading || deleting) {
+  if (deleting) {
     return <Loading />;
   }
 
@@ -654,7 +629,7 @@ const Detail = () => {
                     chain={evolutionChain}
                     currentName={pokemon?.name}
                     currentImage={normalImage}
-                    shinyImage={pokemon?.created ? null : shinyImage}
+                    shinyImage={shinyImage}
                     formatLabel={formatLabel}
                   />
                 )}

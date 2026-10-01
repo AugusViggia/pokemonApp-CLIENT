@@ -1327,6 +1327,39 @@
 }
 
 @media (max-width: 720px) {
+  .container,
+  .page,
+  .wrapper,
+  .header,
+  .infoDiv,
+  .evolutionSection,
+  .evolutionLine,
+  .statsTypesLayout,
+  .extraInfo {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .container {
+    padding: .75rem;
+  }
+
+  .page {
+    margin: 0;
+  }
+
+  .evolutionSection {
+    padding: 0;
+  }
+
+  .evolutionLine {
+    display: block;
+    min-height: 0;
+    padding: 0;
+  }
+
   .evolutionSection {
     overflow: visible;
   }
@@ -1334,15 +1367,27 @@
   .evolutionFlow:not(.eeveeEvolutionFlow) {
     width: 100%;
     min-width: 0;
+    max-width: 100%;
     flex-direction: column;
     align-items: stretch;
+    justify-content: flex-start;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
   }
 
   .evolutionFlow:not(.eeveeEvolutionFlow) .evolutionStep {
     width: 100%;
     min-width: 0;
     height: auto;
+    min-height: 0;
+    flex: 0 0 auto;
     flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    margin: 0;
+    padding: 0;
   }
 
   .evolutionFlow:not(.eeveeEvolutionFlow) .chainArtwork,
@@ -1350,42 +1395,188 @@
     width: 100%;
     min-width: 0;
     max-width: 100%;
-    flex: 0 1 auto;
+    height: clamp(190px, 58vw, 240px);
+    min-height: 0;
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 0 0 1.75rem;
+    border-radius: 0;
     box-sizing: border-box;
   }
 
   .evolutionFlow:not(.eeveeEvolutionFlow) .chainArtwork img,
   .evolutionFlow:not(.eeveeEvolutionFlow) .chainArtworkCurrent img {
+    position: static;
+    display: block;
+    width: min(52vw, 160px);
+    height: min(52vw, 160px);
     max-width: 100%;
+    margin: .15rem auto 0;
+    padding: 0;
     object-fit: contain;
+    transform: none;
   }
 
-  .evolutionFlow:not(.eeveeEvolutionFlow) .evolutionConnector {
-    width: min(100%, 240px);
+  .evolutionFlow:not(.eeveeEvolutionFlow) .evolutionStep > .evolutionConnector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
     min-width: 0;
+    max-width: none;
     height: auto;
-    flex: 0 1 auto;
-    margin: .7rem auto 1rem;
-    border-right: 0;
+    min-height: 0;
+    flex: 0 0 auto;
+    gap: .35rem;
+    margin: 0;
+    padding: .7rem 1rem;
+    border: 0;
+    border-bottom: 1px solid #b7cbe0;
+    border-radius: 0;
+    background: #9bc8eb;
+    box-sizing: border-box;
   }
 
-  .evolutionFlow:not(.eeveeEvolutionFlow) .evolutionConnector b {
+  .evolutionFlow:not(.eeveeEvolutionFlow) .evolutionStep > .evolutionConnector span {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    overflow-wrap: anywhere;
+    text-align: center;
+  }
+
+  .evolutionFlow:not(.eeveeEvolutionFlow) .evolutionStep > .evolutionConnector b {
+    display: block;
+    margin: 0;
     transform: rotate(90deg);
   }
 
-  .eeveeEvolutionFlow {
+  .evolutionFlow:not(.eeveeEvolutionFlow) .evolutionStep > .specialForms {
     width: 100%;
     min-width: 0;
     max-width: 100%;
+    height: auto;
+    flex: 0 0 auto;
+    margin: 0;
+    border: 0;
+    border-bottom: 1px solid #b7cbe0;
   }
 
-  .eeveeEvolutionFlow img {
+  .evolutionFlow:not(.eeveeEvolutionFlow) .specialFormRow {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .eeveeEvolutionFlow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding: 0;
+    border-radius: 0;
+  }
+
+  .eeveeEvolutionFlow .eeveeCurrentColumn,
+  .eeveeEvolutionFlow .eeveeRequirementColumn,
+  .eeveeEvolutionFlow .eeveeEvolutionColumn {
+    width: 100%;
+    min-width: 0;
     max-width: 100%;
-    object-fit: contain;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  .eeveeEvolutionFlow .eeveeCurrentColumn {
+    min-height: 0;
+    padding: 0;
+  }
+
+  .eeveeEvolutionFlow .eeveeCurrentColumn .chainArtworkCurrent {
+    width: 100%;
+    min-height: 0;
+    height: clamp(190px, 58vw, 240px);
+    padding: 0 0 1.75rem;
+  }
+
+  .eeveeEvolutionFlow .eeveeCurrentColumn .chainArtworkCurrent img {
+    width: min(52vw, 160px);
+    height: min(52vw, 160px);
+  }
+
+  .eeveeEvolutionFlow .eeveeRequirementRow,
+  .eeveeEvolutionFlow .eeveeEvolutionCard {
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  .eeveeEvolutionFlow .eeveeRequirementRow {
+    padding: .7rem 1rem;
+  }
+
+  .eeveeEvolutionFlow .eeveeEvolutionCard {
+    padding: .7rem 1rem;
+  }
+
+  .eeveeEvolutionFlow .eeveeEvolutionCard img {
+    width: min(42vw, 130px);
+    height: min(42vw, 130px);
   }
 
   .grid,
-  .detail {
+  .detail,
+  .types,
+  .typeList,
+  .extraInfo {
     min-width: 0;
+    max-width: 100%;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .value {
+    overflow-wrap: anywhere;
+  }
+
+  .extraInfo {
+    padding-right: .75rem;
+    padding-left: .75rem;
+  }
+
+  .formCard {
+    flex-basis: min(135px, 100%);
+    width: min(135px, 100%);
+    min-width: 0;
+  }
+
+  .versionRow {
+    min-width: 0;
+    grid-template-columns: minmax(0, 28%) minmax(0, 72%);
+  }
+
+  .locationRow {
+    grid-template-columns: minmax(0, 1fr) 52px 52px;
+  }
+
+  .locationRow strong,
+  .locationRow span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .detail,
+  .name,
+  .locationItem {
+    overflow-wrap: anywhere;
+  }
+
+  .deleteButton,
+  .button {
+    max-width: 100%;
   }
 }
