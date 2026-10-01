@@ -158,9 +158,26 @@
 @media(max-width:450px) {
   .filterContainer {
     grid-template-columns: 1fr;
+    gap: .65rem;
+  }
+
+  .filter {
+    width: 100%;
+  }
+
+  .typeFilterBlock {
+    height: auto;
+    min-height: 0;
+  }
+
+  .selectedTypes {
+    grid-template-columns: repeat(2, minmax(0, 96px));
   }
 
   .refreshWrap {
     grid-column: auto;
+    min-height: 0;
+    height: auto;
+    padding-top: 0;
   }
 }

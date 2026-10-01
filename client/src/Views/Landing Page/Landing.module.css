@@ -1,4 +1,4 @@
-.container { min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; position:relative; overflow:hidden; background:linear-gradient(130deg,rgba(8,20,45,.9),rgba(13,55,98,.66)),url('pokemon.png') center/cover; color:#fff; }
+.container { width:100%; min-height:100vh; min-height:100svh; display:flex; flex-direction:column; justify-content:center; align-items:center; position:relative; overflow:hidden; background:linear-gradient(130deg,rgba(8,20,45,.9),rgba(13,55,98,.66)),url('pokemon.png') center/cover; color:#fff; }
 
 .title { z-index:1; margin-bottom:2rem; text-align:center; color:#fff; text-shadow:0 10px 35px rgba(0,0,0,.35); font-size:clamp(4rem,12vw,9rem); letter-spacing:-.08em; line-height:.9; font-weight:800; text-transform:uppercase; }
 
@@ -24,17 +24,29 @@
 
 @media (max-width: 780px) {
     .container{
-        max-width: fit-content;
+        width: 100%;
         min-height: 100vh;
-        border:5px solid black;
+        min-height: 100svh;
+        padding: 1.5rem 1rem 3rem;
+        background-position: center;
     }
 
     .title {
-        font-size: 5.5rem;
+        max-width: 100%;
+        margin-bottom: 1.5rem;
+        font-size: clamp(3.25rem, 12vw, 5.5rem);
+        overflow-wrap: anywhere;
     }
 
     .button {
-        font-size: 2rem;
-        padding: 1rem 2rem;
+        font-size: clamp(1rem, 5vw, 1.5rem);
+        padding: .85rem 1.5rem;
+    }
+
+    .copyright {
+        right: 1rem;
+        bottom: max(.75rem, env(safe-area-inset-bottom));
+        left: 1rem;
+        font-size: .75rem;
     }
 }

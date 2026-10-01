@@ -78,9 +78,17 @@
 @media(max-width:640px) {
   .searchForm {
     justify-content: stretch;
+    min-width: 0;
+    width: 100%;
   }
 
   .inputWrapper {
     width: auto;
+    min-width: 0;
+  }
+
+  .button {
+    padding-right: .75rem;
+    padding-left: .75rem;
   }
 }
