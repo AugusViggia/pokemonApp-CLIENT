@@ -65,8 +65,10 @@ const CreatePokemon = () => {
     }
 
     try {
-      const response = await axios.get(`/pokemon?name=${encodeURIComponent(input.name)}`);
-      if (response.data.length > 0) {
+      const response = await axios.get("/pokemon", {
+        params: { page: 1, limit: 1, name: input.name },
+      });
+      if ((response.data.pagination?.total || response.data.data?.length || 0) > 0) {
         setFeedbackError(`Pokemon ${input.name} already exists.`);
         return;
       }
@@ -89,7 +91,7 @@ const CreatePokemon = () => {
     try {
       const minimumLoadingTime = new Promise((resolve) => setTimeout(resolve, 1200));
       await Promise.all([
-        dispatch(getPokemons({ silent: true, force: true })),
+        dispatch(getPokemons({ page: 1, silent: true, force: true })),
         minimumLoadingTime,
       ]);
     } catch (err) {

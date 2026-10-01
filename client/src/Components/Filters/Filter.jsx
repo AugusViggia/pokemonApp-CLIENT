@@ -121,11 +121,8 @@ const Filter = () => {
         dispatch(setFilterLoading(true));
 
         try {
-            dispatch(resetFilters());
-            // The reset action clears the filter state in Redux.
+            await dispatch(resetFilters());
             setOriginFeedback(null);
-
-            await dispatch(getTypes());
         } finally {
             const elapsed = Date.now() - startedAt;
             const remaining = Math.max(0, MIN_REFRESH_TIME - elapsed);

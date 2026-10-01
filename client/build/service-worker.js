@@ -1,4 +1,4 @@
-const CACHE_NAME = "pokedex-app-v1";
+const CACHE_NAME = "pokedex-app-v2";
 const APP_SHELL = ["./", "./index.html", "./manifest.json", "./pokeball.png"];
 
 self.addEventListener("install", (event) => {
@@ -14,12 +14,37 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  if (event.request.method !== "GET" || new URL(event.request.url).origin !== self.location.origin) return;
+  const requestUrl = new URL(event.request.url);
+  if (
+    event.request.method !== "GET" ||
+    requestUrl.origin !== self.location.origin ||
+    requestUrl.pathname === "/pokemon" ||
+    requestUrl.pathname.startsWith("/pokemon/") ||
+    requestUrl.pathname === "/type" ||
+    requestUrl.pathname.startsWith("/type/")
+  ) return;
+
   event.respondWith(
     fetch(event.request).then((response) => {
-      const copy = response.clone();
-      caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+      if (response.ok) {
+        const copy = response.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+      }
       return response;
-    }).catch(() => caches.match(event.request).then((cached) => cached || (event.request.mode === "navigate" ? caches.match("./index.html") : undefined)))
+    }).catch(() => caches.match(event.request).then((cached) => {
+      if (cached) return cached;
+      if (event.request.mode === "navigate") {
+        return caches.match("./index.html").then((appShell) => appShell || new Response("Offline", {
+          status: 503,
+          statusText: "Service Unavailable",
+          headers: { "Content-Type": "text/plain; charset=utf-8" },
+        }));
+      }
+      return new Response("Network request failed", {
+        status: 503,
+        statusText: "Service Unavailable",
+        headers: { "Content-Type": "text/plain; charset=utf-8" },
+      });
+    }))
   );
 });

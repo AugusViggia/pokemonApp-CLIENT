@@ -1,50 +1,36 @@
-import { useSelector } from "react-redux";
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Page from "../Paginated/Page";
 import Card from "../PokemonCards/Cards";
 import style from "./CardsContainer.module.css";
 import FilterLoading from "../FilterLoading/FilterLoading";
+import { DEFAULT_POKEMON_PAGE_SIZE, getPokemons } from "../../Redux/Actions/Actions-Functions/actions-pokemons";
 
 const CardsContainer = ({ initialPage = 1, restoreScrollY = 0 }) => {
+  const dispatch = useDispatch();
   const pokemons = useSelector((state) => state.pokemons || []);
+  const pagination = useSelector((state) => state.pagination || {});
+  const pokemonPageLoading = useSelector((state) => state.pokemonPageLoading);
   const filterLoading = useSelector((state) => state.filterLoading);
-  const paginationResetKey = useSelector((state) => state.paginationResetKey || 0);
 
-  const [currentPage, setCurrentPage] = useState(initialPage);
   const [imagesLoading, setImagesLoading] = useState(true);
   const restoredScroll = useRef(false);
-  const charactersPerPage = 15;
-  const indexOfLastCharacter = currentPage * charactersPerPage;
-  const indexOfFirstCharacter = indexOfLastCharacter - charactersPerPage;
-
-  const currentCharacters = useMemo(() => pokemons.slice(
-    indexOfFirstCharacter,
-    indexOfLastCharacter,
-  ), [pokemons, indexOfFirstCharacter, indexOfLastCharacter]);
+  const charactersPerPage = pagination.limit || DEFAULT_POKEMON_PAGE_SIZE;
+  const currentPage = pagination.page || initialPage || 1;
+  const currentCharacters = pokemons;
+  const pageIsLoading = pokemonPageLoading || filterLoading;
 
   const paginated = (pageNumber) => {
-    setCurrentPage(pageNumber);
+    if (pageIsLoading || pageNumber === currentPage) return;
     setImagesLoading(true);
+    dispatch(getPokemons({
+      page: pageNumber,
+      limit: charactersPerPage,
+      silent: true,
+    }));
   };
 
-  useEffect(() => {
-    if (pokemons.length === 0) return;
-    const maxPage = Math.max(1, Math.ceil(pokemons.length / charactersPerPage));
-    setCurrentPage(Math.min(Math.max(initialPage, 1), maxPage));
-  }, [initialPage, pokemons.length]);
-
-  const previousResetKey = useRef(paginationResetKey);
-
-  useEffect(() => {
-    if (previousResetKey.current === paginationResetKey) return;
-    previousResetKey.current = paginationResetKey;
-    setCurrentPage(1);
-    setImagesLoading(true);
-  }, [paginationResetKey]);
-
-  // Preload every image for the selected page before displaying the cards.
-  // This avoids the page appearing with empty cards while images arrive one by one.
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (currentCharacters.length === 0) {
       setImagesLoading(false);
       return undefined;
@@ -75,7 +61,7 @@ const CardsContainer = ({ initialPage = 1, restoreScrollY = 0 }) => {
   }, [currentCharacters]);
 
   useEffect(() => {
-    if (restoredScroll.current || !restoreScrollY || pokemons.length === 0 || imagesLoading) return;
+    if (restoredScroll.current || !restoreScrollY || pokemons.length === 0 || imagesLoading || pageIsLoading) return;
 
     const frame = window.requestAnimationFrame(() => {
       window.scrollTo({ top: restoreScrollY, behavior: "auto" });
@@ -83,13 +69,7 @@ const CardsContainer = ({ initialPage = 1, restoreScrollY = 0 }) => {
     });
 
     return () => window.cancelAnimationFrame(frame);
-  }, [restoreScrollY, currentPage, pokemons.length, imagesLoading]);
-
-  useEffect(() => {
-    if (currentCharacters.length === 0 && pokemons.length > 0) {
-      setCurrentPage(Math.ceil(pokemons.length / charactersPerPage));
-    }
-  }, [currentCharacters.length, pokemons.length]);
+  }, [restoreScrollY, currentPage, pokemons.length, imagesLoading, pageIsLoading]);
 
   const skeletons = Array.from({ length: charactersPerPage }, (_, index) => index);
 
@@ -98,15 +78,15 @@ const CardsContainer = ({ initialPage = 1, restoreScrollY = 0 }) => {
       <div className={style.cardsArea}>
         <div className={style.pageDiv}>
           <Page
-            charactersPerPage={charactersPerPage}
-            pokemons={pokemons}
+            currentPage={currentPage}
+            totalPages={pagination.totalPages || 0}
             paginated={paginated}
-            initialPage={currentPage}
+            disabled={pageIsLoading}
           />
         </div>
 
         <div className={style.cards}>
-          {imagesLoading
+          {imagesLoading || pageIsLoading
             ? skeletons.map((index) => (
                 <div key={`skeleton-${index}`} className={style.cardDiv}>
                   <div className={style.cardSkeleton}>
@@ -129,7 +109,7 @@ const CardsContainer = ({ initialPage = 1, restoreScrollY = 0 }) => {
                       types={pokemon.types}
                       attack={pokemon.attack}
                       created={pokemon.created}
-                      customNumber={indexOfFirstCharacter + index + 1}
+                      customNumber={(currentPage - 1) * charactersPerPage + index + 1}
                       page={currentPage}
                     />
                   </div>
@@ -137,7 +117,7 @@ const CardsContainer = ({ initialPage = 1, restoreScrollY = 0 }) => {
               })}
         </div>
 
-        {filterLoading && <FilterLoading />}
+        {pageIsLoading && <FilterLoading />}
       </div>
     </div>
   );

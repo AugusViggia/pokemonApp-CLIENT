@@ -1,5 +1,8 @@
 import {
   GET_POKEMONS,
+  POKEMONS_REQUEST,
+  POKEMONS_REQUEST_FINISHED,
+  POKEMONS_REQUEST_FAILED,
   GET_DETAILS,
   REMOVE_POKEMON,
   GET_TYPES,
@@ -17,7 +20,11 @@ import {
 
 const initialState = {
   pokemons: [],
-  allPokemons: [],
+  pagination: { page: 1, limit: 20, total: 0, totalPages: 0 },
+  pokemonPageLoading: false,
+  pokemonPageRequestId: null,
+  pokemonPendingQuery: null,
+  pokemonPageError: null,
   types: [],
 
   details: [],
@@ -32,16 +39,53 @@ const initialState = {
   selectedTypes: [],
   sortName: "all",
   sortAttack: "all",
-  paginationResetKey: 0,
 };
 
 const reducer = (state = initialState, action) => {
         switch (action.type) {
-          case GET_POKEMONS:
+          case POKEMONS_REQUEST:
             return {
               ...state,
-              pokemons: action.payload,
-              allPokemons: action.payload,
+              pokemonPageLoading: true,
+              pokemonPageRequestId: action.payload.requestId,
+              pokemonPendingQuery: action.payload.query,
+              pokemonPageError: null,
+            };
+
+          case GET_POKEMONS:
+            if (action.meta.requestId !== state.pokemonPageRequestId) return state;
+            return {
+              ...state,
+              pokemons: action.payload.data,
+              pagination: action.payload.pagination,
+              searchTerm: action.meta.query.searchTerm,
+              selectedTypes: action.meta.query.selectedTypes,
+              originFilter: action.meta.query.originFilter,
+              sortName: action.meta.query.sortName,
+              sortAttack: action.meta.query.sortAttack,
+              pokemonPageLoading: false,
+              pokemonPageRequestId: null,
+              pokemonPendingQuery: null,
+              pokemonPageError: null,
+            };
+
+          case POKEMONS_REQUEST_FINISHED:
+            if (action.payload.requestId !== state.pokemonPageRequestId) return state;
+            return {
+              ...state,
+              pokemonPageLoading: false,
+              pokemonPageRequestId: null,
+              pokemonPendingQuery: null,
+            };
+
+          case POKEMONS_REQUEST_FAILED:
+            if (action.payload.requestId !== state.pokemonPageRequestId) return state;
+            return {
+              ...state,
+              pokemonPageLoading: false,
+              pokemonPageRequestId: null,
+              pokemonPendingQuery: null,
+              pokemonPageError: action.payload.message,
             };
 
           case GET_TYPES:
@@ -63,8 +107,11 @@ const reducer = (state = initialState, action) => {
             return {
               ...state,
               pokemons: state.pokemons.filter(removeById),
-              allPokemons: state.allPokemons.filter(removeById),
-              paginationResetKey: state.paginationResetKey + 1,
+              pagination: {
+                ...state.pagination,
+                total: Math.max(0, state.pagination.total - 1),
+                totalPages: Math.ceil(Math.max(0, state.pagination.total - 1) / state.pagination.limit),
+              },
             };
           }
 
@@ -113,13 +160,12 @@ const reducer = (state = initialState, action) => {
             return {
               ...state,
               filters: "all",
-              pokemons: state.allPokemons,
               searchTerm: "",
               originFilter: "all",
               selectedTypes: [],
               sortName: "all",
               sortAttack: "all",
-              paginationResetKey: state.paginationResetKey + 1,
+              pagination: { ...state.pagination, page: 1 },
             };
 
           case SET_LOADING:

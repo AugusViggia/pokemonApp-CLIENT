@@ -41,7 +41,6 @@ function AppContent() {
       (isInitialRoute || previousPathname !== location.pathname);
 
     if (isInitialRoute && !enteringHome) {
-      dispatch(getPokemons({ silent: true })).catch(() => {});
       return undefined;
     }
 
@@ -68,8 +67,9 @@ function AppContent() {
     const dataReady = enteringHome
       ? Promise.allSettled([
           dispatch(getPokemons({
+            page: location.state?.restore?.page || 1,
             silent: true,
-            force: location.state?.refreshOnEnter === true,
+            force: location.state?.refreshOnEnter === true || location.state?.triggerHomeLoading === true,
           })),
           dispatch(getTypes()),
         ])

@@ -1,105 +1,43 @@
 import React from "react";
-import style from './Page.module.css';
-import { useState, useEffect } from "react";
+import style from "./Page.module.css";
 
-const Page = ({ charactersPerPage, pokemons, paginated, initialPage = 1 }) => {
-    const [currentPage, setCurrentPage] = useState(initialPage);
-    const pageNumbers = [];
-
-    for (let i = 0; i < Math.ceil(pokemons.length / charactersPerPage); i++) {
-        pageNumbers.push(i + 1);
-    }
-
-    useEffect(() => {
-        const maxPage = Math.max(1, Math.ceil(pokemons.length / charactersPerPage));
-        const safePage = Math.min(Math.max(initialPage, 1), maxPage);
-        setCurrentPage(safePage);
-    }, [initialPage, pokemons.length, charactersPerPage]);
-
-    const paginatedHandler = (page) => {
-        const safePage = Math.min(Math.max(page, 1), Math.max(pageNumbers.length, 1));
-        setCurrentPage(safePage);
-        paginated(safePage);
-    };
-
+const Page = ({ currentPage = 1, totalPages = 0, paginated, disabled = false }) => {
+    const pageNumbers = Array.from({ length: Math.max(0, totalPages) }, (_, index) => index + 1);
     const maxPagesToShow = 5;
-
-    const renderPageNumbers = () => {
-        const firstPageToShow = currentPage <= maxPagesToShow ? 1 : currentPage - maxPagesToShow + 1;
-        const lastPageToShow = Math.min(firstPageToShow + maxPagesToShow - 1, pageNumbers.length);
-
-        return pageNumbers
-            .slice(firstPageToShow - 1, lastPageToShow)
-            .map((number) => (
-                <li key={number} className={currentPage === number ? style.currentPage : undefined}>
-                    <a onClick={() => paginatedHandler(number)}>{number}</a>
-                </li>
-            ));
+    const firstPageToShow = currentPage <= maxPagesToShow ? 1 : currentPage - maxPagesToShow + 1;
+    const lastPageToShow = Math.min(firstPageToShow + maxPagesToShow - 1, totalPages);
+    const visiblePages = pageNumbers.slice(firstPageToShow - 1, lastPageToShow);
+    const hasPages = totalPages > 0;
+    const goToPage = (page) => {
+        const safePage = Math.min(Math.max(page, 1), Math.max(totalPages, 1));
+        if (!disabled && safePage !== currentPage) paginated(safePage);
     };
 
-    const firstPage = 1;
-    const lastPage = pageNumbers.length;
-    const hasPages = lastPage > 0;
+    const renderLink = (label, page, isDisabled) => (
+        <a
+            aria-disabled={isDisabled || disabled}
+            className={isDisabled || disabled ? style.disabled : undefined}
+            onClick={() => !isDisabled && goToPage(page)}
+        >
+            {label}
+        </a>
+    );
 
     return (
-        <nav>
+        <nav aria-label="Paginación">
             <ul className={style.paginado}>
-                <li className={style.navSlot}>
-                    {hasPages ? (
-                        <a
-                            className={currentPage === firstPage ? style.disabled : undefined}
-                            onClick={() => currentPage > firstPage && paginatedHandler(firstPage)}
-                        >
-                            First
-                        </a>
-                    ) : (
-                        <span aria-hidden="true" />
-                    )}
-                </li>
-
-                <li className={style.navSlot}>
-                    {hasPages ? (
-                        <a
-                            className={currentPage === firstPage ? style.disabled : undefined}
-                            onClick={() => currentPage > firstPage && paginatedHandler(currentPage - 1)}
-                        >
-                            Prev
-                        </a>
-                    ) : (
-                        <span aria-hidden="true" />
-                    )}
-                </li>
-
-                {renderPageNumbers()}
-
-                <li className={style.navSlot}>
-                    {hasPages ? (
-                        <a
-                            className={currentPage === lastPage ? style.disabled : undefined}
-                            onClick={() => currentPage < lastPage && paginatedHandler(currentPage + 1)}
-                        >
-                            Next
-                        </a>
-                    ) : (
-                        <span aria-hidden="true" />
-                    )}
-                </li>
-
-                <li className={style.navSlot}>
-                    {hasPages ? (
-                        <a
-                            className={currentPage === lastPage ? style.disabled : undefined}
-                            onClick={() => currentPage < lastPage && paginatedHandler(lastPage)}
-                        >
-                            Last
-                        </a>
-                    ) : (
-                        <span aria-hidden="true" />
-                    )}
-                </li>
+                <li className={style.navSlot}>{hasPages ? renderLink("First", 1, currentPage === 1) : <span />}</li>
+                <li className={style.navSlot}>{hasPages ? renderLink("Prev", currentPage - 1, currentPage === 1) : <span />}</li>
+                {visiblePages.map((number) => (
+                    <li key={number} className={currentPage === number ? style.currentPage : undefined}>
+                        <a aria-current={currentPage === number ? "page" : undefined} onClick={() => goToPage(number)}>{number}</a>
+                    </li>
+                ))}
+                <li className={style.navSlot}>{hasPages ? renderLink("Next", currentPage + 1, currentPage === totalPages) : <span />}</li>
+                <li className={style.navSlot}>{hasPages ? renderLink("Last", totalPages, currentPage === totalPages) : <span />}</li>
             </ul>
         </nav>
-    )
+    );
 };
 
 export default Page;
