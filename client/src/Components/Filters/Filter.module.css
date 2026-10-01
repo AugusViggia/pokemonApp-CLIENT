@@ -158,11 +158,12 @@
 @media(max-width:450px) {
   .filterContainer {
     grid-template-columns: 1fr;
-    gap: .65rem;
+    gap: .4rem;
   }
 
   .filter {
     width: 100%;
+    gap: .18rem;
   }
 
   .typeFilterBlock {
@@ -174,10 +175,19 @@
     grid-template-columns: repeat(2, minmax(0, 96px));
   }
 
+  .selectedTypes:empty {
+    display: none;
+  }
+
   .refreshWrap {
     grid-column: auto;
     min-height: 0;
     height: auto;
     padding-top: 0;
+    align-items: center;
+  }
+
+  .typeFilterContent {
+    gap: .2rem;
   }
 }
