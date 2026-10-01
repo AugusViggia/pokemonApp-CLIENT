@@ -7,6 +7,7 @@ import Detail from "./Components/PokemonDetail/Detail";
 import CreatePokemon from "./Components/PokemonCreator/CreatePokemon";
 import Loading from "./Components/Loading/Loading";
 import { getPokemons } from "./Redux/Actions/Actions-Functions/actions-pokemons";
+import { getTypes } from "./Redux/Actions/Actions-Functions/actions-pokemonTypes";
 import "./App.css";
 import axios from "axios";
 
@@ -17,8 +18,9 @@ const ROUTE_LOADING_MS = 800;
 function AppContent() {
   const location = useLocation();
   const dispatch = useDispatch();
-  const previousPath = useRef(location.pathname);
-  const [routeLoading, setRouteLoading] = useState(false);
+  const previousPath = useRef(null);
+  const activeLoadingTask = useRef(null);
+  const [routeLoading, setRouteLoading] = useState(location.pathname === "/home");
 
   // Make the site installable in browsers that support the native prompt.
   useEffect(() => {
@@ -27,38 +29,63 @@ function AppContent() {
     navigator.serviceWorker.register(new URL("service-worker.js", appUrl).toString()).catch(() => {});
   }, []);
 
-  // Start the Pokémon catalog request as soon as the app mounts. Landing is
-  // normally the first screen, so this loads while the user is there.
+  // Keep the existing catalog prefetch on the landing page. When Home is
+  // entered, wait for both requests it needs before ending the route loader.
   useEffect(() => {
-    dispatch(getPokemons({ silent: true })).catch(() => {});
-  }, [dispatch]);
-
-  // One place owns route-transition loading. It never waits on the route's
-  // children, images, filters, or Redux loading state. Home refreshes only
-  // when the route explicitly asks for a refresh.
-  useEffect(() => {
-    if (previousPath.current === location.pathname) return undefined;
-
+    const isInitialRoute = previousPath.current === null;
+    const previousPathname = previousPath.current;
     previousPath.current = location.pathname;
-    let cancelled = false;
+
+    const enteringHome =
+      location.pathname === "/home" &&
+      (isInitialRoute || previousPathname !== location.pathname);
+
+    if (isInitialRoute && !enteringHome) {
+      dispatch(getPokemons({ silent: true })).catch(() => {});
+      return undefined;
+    }
+
+    if (!isInitialRoute && previousPathname === location.pathname) {
+      // React StrictMode replays effects in development. Reuse the same
+      // pending task after its cleanup instead of starting duplicate requests.
+      const pendingTask = activeLoadingTask.current;
+      if (pendingTask?.pathname === location.pathname && pendingTask.cancelled) {
+        pendingTask.cancelled = false;
+        return () => {
+          pendingTask.cancelled = true;
+        };
+      }
+      return undefined;
+    }
+
+    const loadingTask = { pathname: location.pathname, cancelled: false };
+    activeLoadingTask.current = loadingTask;
     setRouteLoading(true);
 
-    const minDelay = new Promise((resolve) => {
+    const minDuration = new Promise((resolve) => {
       window.setTimeout(resolve, ROUTE_LOADING_MS);
     });
+    const dataReady = enteringHome
+      ? Promise.allSettled([
+          dispatch(getPokemons({
+            silent: true,
+            force: location.state?.refreshOnEnter === true,
+          })),
+          dispatch(getTypes()),
+        ])
+      : Promise.resolve();
 
-    const refreshOnEnter = location.state?.refreshOnEnter === true;
-    const dataReady =
-      location.pathname === "/home" && refreshOnEnter
-        ? dispatch(getPokemons({ silent: true, force: true })).catch(() => null)
-        : Promise.resolve();
-
-    Promise.allSettled([minDelay, dataReady]).then(() => {
-      if (!cancelled) setRouteLoading(false);
+    Promise.all([minDuration, dataReady]).then(() => {
+      if (!loadingTask.cancelled) {
+        setRouteLoading(false);
+        if (activeLoadingTask.current === loadingTask) {
+          activeLoadingTask.current = null;
+        }
+      }
     });
 
     return () => {
-      cancelled = true;
+      loadingTask.cancelled = true;
     };
   }, [location.pathname, dispatch]);
 

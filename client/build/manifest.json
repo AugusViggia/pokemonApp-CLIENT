@@ -1,0 +1,16 @@
+{
+  "short_name": "Pokedex",
+  "name": "Pokedex App",
+  "icons": [
+    {
+      "src": "pokeball.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/home",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#d62828",
+  "background_color": "#f8f5f5"
+}
